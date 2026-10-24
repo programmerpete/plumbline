@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Prepare a fresh orb to build and test plumbline.
+#
+# Amp runs this once for a fresh orb, and again on a warm snapshot after the
+# repository changes, so it must be non-interactive and idempotent. Nothing here
+# needs credentials: plumbline makes no model calls of its own, and the self-tests
+# use stub agents.
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+step() { printf '\n== %s ==\n' "$1"; }
+
+step "toolchain"
+for tool in bun git; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    echo "$tool is required by plumbline and was not found on PATH" >&2
+    exit 1
+  fi
+done
+bun --version
+git --version
+
+step "dependencies"
+# A no-op when node_modules already matches bun.lock, so a warm snapshot stays fast.
+bun install --frozen-lockfile
+
+step "smoke check"
+bun run src/cli.ts version
+
+printf '\nnote: Apple tasks need macOS with Xcode; an orb grades the self-test suite only.\n'

@@ -2,6 +2,9 @@
 node_modules/
 .plumbline/
 
+# orb portal registrations, if this repository is ever run with services
+.amp/portals/
+
 # macOS
 .DS_Store
 
