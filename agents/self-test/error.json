@@ -1,0 +1,5 @@
+{
+  "name": "stub-error",
+  "command": "bash \"$PLUMBLINE_REPO/agents/stub-error.sh\"",
+  "prompt_delivery": "stdin"
+}

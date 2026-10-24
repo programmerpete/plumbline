@@ -1,0 +1,5 @@
+{
+  "name": "stub-noop",
+  "command": "bash \"$PLUMBLINE_REPO/agents/stub-noop.sh\"",
+  "prompt_delivery": "stdin"
+}

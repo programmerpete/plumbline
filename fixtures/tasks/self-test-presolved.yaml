@@ -1,0 +1,21 @@
+# A task that is already solved before the agent starts. `plumbline validate` must
+# reject it: a task everyone passes measures nothing. The setup step is what makes
+# it pre-solved, which also proves that setup runs before the oracle.
+id: self-test-presolved
+title: Self-test — already solved, so validate must reject it
+platform: local
+tags: [self-test]
+source:
+  kind: path
+  path: fixtures/self-test-cart
+setup:
+  - git apply patches/fix-discount.patch
+budget:
+  wall_clock_seconds: 60
+  attempts: 1
+prompt: |
+  Nothing to do. This fixture starts solved so that validation has something to
+  refuse.
+local:
+  test:
+    - bun test

@@ -1,0 +1,11 @@
+diff --git a/src/cart.js b/src/cart.js
+index 13a0f5e..62d2bdc 100644
+--- a/src/cart.js
++++ b/src/cart.js
+@@ -11,5 +11,5 @@ export function subtotal(items) {
+ }
+ 
+ export function totalWithDiscount(items, discountRate) {
+-  return subtotal(items) - discountRate;
++  return subtotal(items) * (1 - discountRate);
+ }

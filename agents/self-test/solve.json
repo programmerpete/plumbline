@@ -1,0 +1,5 @@
+{
+  "name": "stub-solve",
+  "command": "bash \"$PLUMBLINE_REPO/agents/stub-solve.sh\"",
+  "prompt_delivery": "stdin"
+}

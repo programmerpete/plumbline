@@ -1,0 +1,5 @@
+[test]
+# The self-test fixtures contain a deliberately failing test: that failing test is
+# what the harness measures. It must never be collected as part of plumbline's own
+# suite, or the suite would be red by design.
+root = "./test"

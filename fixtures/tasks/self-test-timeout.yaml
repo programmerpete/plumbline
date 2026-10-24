@@ -1,0 +1,17 @@
+id: self-test-timeout
+title: Self-test — the agent never returns, so the limit has to kill it
+platform: local
+tags: [self-test]
+source:
+  kind: path
+  path: fixtures/self-test-cart
+budget:
+  # Two seconds on purpose: this is the only fixture that has to outlive a limit.
+  wall_clock_seconds: 2
+  attempts: 1
+prompt: |
+  Do whatever you like. The point of this fixture is that you never finish.
+local:
+  test:
+    - bun test
+reference_patch: fixtures/self-test-cart/patches/fix-discount.patch

@@ -1,0 +1,5 @@
+{
+  "name": "stub-sleep",
+  "command": "bash \"$PLUMBLINE_REPO/agents/stub-sleep.sh\"",
+  "prompt_delivery": "stdin"
+}

@@ -1,0 +1,56 @@
+# A worked example of an Apple-platform task.
+#
+# This file is not loaded: the suite loader looks for `task.yaml` and top-level
+# `*.yaml`. Copy it into place, point it at a repository you own, pin the commit,
+# write the reference patch, then run:
+#
+#   bun run src/cli.ts validate <id>
+#
+# Nothing here is real: the URLs and the SHA are placeholders.
+
+id: checkout-discount-rounding
+title: Checkout shows a total that disagrees with the cart
+platform: apple
+tags: [swiftui, state, money]
+
+# A pinned commit. Full SHA, never a branch. The scratch checkout is a clone of
+# this URL at this commit, and nothing else.
+source:
+  kind: git
+  url: https://github.com/your-org/your-ios-app.git
+  commit: 0f1e2d3c4b5a69788796a5b4c3d2e1f009182736
+
+# Runs in the scratch checkout before the agent and before the oracle. Codegen and
+# dependency steps belong here. Keep it deterministic and offline if you can.
+setup:
+  - xcodegen generate
+
+apple:
+  project: App.xcodeproj
+  scheme: App
+  # Exactly what xcodebuild receives. Pin the simulator model you actually test on.
+  destination: platform=iOS Simulator,name=iPhone 17
+  # Evidence only: one screenshot of the booted simulator after the run. Assertions
+  # belong in the UI tests, not in image diffs.
+  capture_screenshot: true
+
+budget:
+  # Seconds. An agent that needs longer than this on this task is a finding, not a
+  # reason to raise the limit.
+  wall_clock_seconds: 1200
+  # Independent trials. pass@k comes from these, so 3 is the useful minimum.
+  attempts: 3
+
+# The instruction the agent receives, verbatim, as the whole of its context. It
+# describes what a user sees, not where the bug is.
+prompt: |
+  In the Checkout screen, the order total disagrees with the sum of the cart lines
+  whenever a percentage discount is applied to an item with more than one unit: the
+  total comes out slightly high. The cart screen shows the correct per-line prices.
+
+  Fix the calculation so the checkout total matches the cart, and keep the existing
+  tests passing. Add a test that would have caught this.
+
+# Applied by `plumbline validate` to prove the oracle is satisfiable. The agent
+# never sees this file.
+reference_patch: tasks/example-apple/fix-discount-rounding.patch

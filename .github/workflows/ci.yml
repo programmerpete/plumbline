@@ -1,0 +1,35 @@
+name: ci
+
+# The harness's own tests, the self-test loop with stub agents, and a doctor run.
+#
+# Apple grading needs macOS, and a hosted macOS runner costs enough that it is a
+# deliberate choice rather than a default. If you add one, run it on a schedule rather
+# than on every push:
+#
+#   schedule-macos:
+#     runs-on: macos-latest
+#     steps:
+#       - uses: actions/checkout@v5
+#       - run: sudo xcode-select -switch /Applications/Xcode.app
+#       - run: bun install
+#       - run: bun run src/cli.ts doctor
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun test
+      - run: bun run selftest
+      - run: bun run src/cli.ts doctor

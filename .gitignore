@@ -1,0 +1,11 @@
+# runtime and scratch
+node_modules/
+.plumbline/
+
+# macOS
+.DS_Store
+
+# Xcode leftovers, if a task is ever pointed at a checkout in place
+DerivedData/
+build/
+*.xcresult

@@ -1,0 +1,18 @@
+id: self-test-cart
+title: A percentage discount is subtracted as an absolute amount
+platform: local
+tags: [self-test]
+source:
+  kind: path
+  path: fixtures/self-test-cart
+budget:
+  wall_clock_seconds: 60
+  attempts: 2
+prompt: |
+  `totalWithDiscount` in src/cart.js subtracts the discount rate as an absolute
+  amount instead of a proportion of the subtotal. Fix it so the existing tests
+  pass. Do not change the tests.
+local:
+  test:
+    - bun test
+reference_patch: fixtures/self-test-cart/patches/fix-discount.patch

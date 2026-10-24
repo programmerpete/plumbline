@@ -1,0 +1,26 @@
+{
+  "name": "plumbline",
+  "version": "0.1.0",
+  "description": "A graded coding-agent benchmark for Apple-platform work",
+  "type": "module",
+  "license": "Apache-2.0",
+  "bin": {
+    "plumbline": "src/cli.ts"
+  },
+  "scripts": {
+    "start": "bun run src/cli.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "doctor": "bun run src/cli.ts doctor",
+    "validate": "bun run src/cli.ts validate",
+    "selftest": "bun run src/cli.ts run --tasks fixtures/tasks --agent agents/self-test/solve.json --ledger .plumbline/self-test/trials.jsonl --out .plumbline/self-test/report --no-index",
+    "selftest:validate": "bun run src/cli.ts validate --tasks fixtures/tasks --ledger .plumbline/self-test/trials.jsonl"
+  },
+  "dependencies": {
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.10",
+    "typescript": "^5.9.3"
+  }
+}
